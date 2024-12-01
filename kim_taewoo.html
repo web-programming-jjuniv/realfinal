@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제작자 상세 정보</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #A0B9B7;
+        }
+
+        .info-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 4px solid #007bff;
+        }
+
+        p {
+            color: #555;
+            margin: 10px 0;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+
+        .close-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .close-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="info-container">
+        <h1>제작자 상세 정보</h1>
+        <img src="./images/ktw.jpg" alt="제작자 사진">
+        <p><strong>이름:</strong> 김태우</p>
+        <p>LED제어 모드 제작 총괄</p>
+        <p><strong>연락처:</strong> 010-6644-6587</p>
+        <p><strong>이메일:</strong> <a href="mailto:taewoo0207@naver.com">taewoo0207@naver.com</a></p>
+        <button class="close-button" onclick="closeTab()">닫기</button>
+    </div>
+
+    <script>
+        function closeTab() {
+            window.close();
+        }
+    </script>
+</body>
+</html>

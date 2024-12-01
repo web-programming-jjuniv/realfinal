@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>신호등 제어 프로그램</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #A0B9B7;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 200px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .button-auto { background-color: #28a745; }
+        .button-manual { background-color: #ffc107; }
+        .button-end { background-color: #dc3545; }
+        .button-bluetooth { background-color: #007bff; }
+
+        .button-auto:hover { background-color: #218838; }
+        .button-manual:hover { background-color: #e0a800; }
+        .button-end:hover { background-color: #c82333; }
+        .button-bluetooth:hover { background-color: #0056b3; }
+
+        .button-bluetooth img {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* 사이드바 스타일 */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 300px;
+            height: 100%;
+            background-color: #ffffff;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+            transition: right 0.4s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .sidebar h2 {
+            margin-top: 0;
+        }
+
+        .close-btn {
+            align-self: flex-end;
+            background-color: #dc3545;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            background-color: #c82333;
+        }
+
+        .sidebar button {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            border: none;
+            color: white;
+        }
+
+        .on-state {
+            background-color: #28a745;
+        }
+
+        .off-state {
+            background-color: #dc3545;
+        }
+
+        .sidebar button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <h1>신호등 제어 프로그램</h1>
+    <p>여기에서 신호등 LED와 Bluetooth를 제어할 수 있습니다.</p>
+
+    <div class="button-container">
+        <!-- Bluetooth 제어 버튼 -->
+        <button class="button-bluetooth" id="connectBluetooth" onclick="connectBluetooth()">
+            <img src="./images/bluetooth.png" alt="Bluetooth Icon">
+            Bluetooth 연결
+        </button>
+
+        <!-- 모드 선택 버튼 -->
+        <button class="button-auto" id="automode" onclick="startAutoMode()">자동 모드</button>
+        <button class="button-manual" onclick="toggleSidebar()">수동 모드</button>
+        <button class="button-end" id="endmode" onclick="startEndMode()">종료 모드</button>
+    </div>
+
+    <!-- 수동 모드 사이드바 -->
+    <div class="sidebar" id="manualModeSidebar">
+        <button class="close-btn" onclick="toggleSidebar()">닫기</button>
+        <h2>수동 모드 설정</h2>
+        <p>수동 모드에서 신호등을 제어할 수 있습니다.</p>
+        <button class="off-state" id="blinker1" onclick="toggleButtonState(this)">신호등 1</button>
+        <button class="off-state" id="blinker2" onclick="toggleButtonState(this)">신호등 2</button>
+        <button class="off-state" id="blinker3" onclick="toggleButtonState(this)">신호등 3</button>
+        <button class="off-state" id="blinker4" onclick="toggleButtonState(this)">신호등 4</button>
+    </div>
+
+    <script>
+        // Bluetooth 연결 상태 관리
+        function connectBluetooth() {
+           // alert("Bluetooth 연결 로직이 아직 구현되지 않았습니다.\n개발 후 이 버튼을 사용하세요.");
+        }
+
+        // 자동 모드 실행
+        function startAutoMode() {
+            alert('자동 모드가 시작되었습니다.');
+            resetAllModes();
+        }
+
+        // 종료 모드 실행
+        function startEndMode() {
+            alert('종료 모드가 시작되었습니다.');
+            resetAllModes();
+        }
+
+        // 사이드바 표시/숨기기
+        function toggleSidebar() {
+            const sidebar = document.getElementById('manualModeSidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        // 버튼 ON/OFF 상태 토글
+        function toggleButtonState(button) {
+            const isOn = button.classList.contains('on-state');
+            if (isOn) {
+                button.classList.remove('on-state');
+                button.classList.add('off-state');
+                button.textContent = `신호등 ${button.id.split('blinker')[1]} OFF`;
+            } else {
+                button.classList.remove('off-state');
+                button.classList.add('on-state');
+                button.textContent = `신호등 ${button.id.split('blinker')[1]} ON`;
+            }
+        }
+
+        // 모든 모드 상태 초기화
+        function resetAllModes() {
+            const sidebar = document.getElementById('manualModeSidebar');
+            const buttons = sidebar.querySelectorAll('button.off-state, button.on-state');
+            buttons.forEach(button => {
+                button.classList.remove('on-state');
+                button.classList.add('off-state');
+                button.textContent = `신호등 ${button.id.split('blinker')[1]}`;
+            });
+            sidebar.classList.remove('active');
+        }
+    </script>
+    <script type="module">
+        // index.js 모듈 가져오기 및 실행
+        import main from './test.js';
+        main();
+    </script>
+</body>
+</html>

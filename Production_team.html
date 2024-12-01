@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제작자 정보</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #A0B9B7;
+        }
+
+        .info-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #007bff;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #555;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .blue-button {
+            background-color: #0056b3;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-align: center;
+        }
+
+        .blue-button:hover {
+            background-color: #003d80;
+        }
+
+        .close-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .close-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="info-container">
+        <img src="./images/cr.jpg" alt="제작자 사진">
+        
+        <h1>제작자 정보</h1>
+        <p>안녕하세요! 이 웹 페이지를 제작한 개발자입니다.</p>
+        <p>저는 웹 개발과 IoT 프로젝트를 진행 중이며, <br>ESP32와 같은 소자를 무선 연결을 통한 프로젝트를 진행하였습니다.</p>
+        <p>문의 사항이 있으시면 개발자 정보를 확인 하신 후 <br>담당자의 이메일로 연락해주세요.</p>
+
+        <div class="button-container">
+            <button class="blue-button" onclick="window.open('kim_byeonghyeon.html', '_blank')">김병현</button>
+            <button class="blue-button" onclick="window.open('kim_taewoo.html', '_blank')">김태우</button>
+            <button class="blue-button" onclick="window.open('ra_wonjun.html', '_blank')">라원준</button>
+            <button class="blue-button" onclick="window.open('kim_chaewoon.html', '_blank')">김채운</button>
+            <button class="blue-button" onclick="window.open('namgung_dong-geun.html', '_blank')">남궁동근</button>
+        </div>
+        
+        <button class="close-button" onclick="closeTab()">닫기</button>
+        
+        <script>
+            function closeTab() {
+                window.close();
+            }
+        </script>
+</body>
+</html>
+

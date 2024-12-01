@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32 교차로 제어 시스템</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            background: url('./images/image.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            justify-content: center;
+            align-items: center;
+            background-color: #A0B9B7;
+            transition: background-position 1s ease, background-color 0.5s ease;
+        }
+
+        .header-title {
+            color: #FAF6E8;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+            font-size: 2.5rem;
+        }
+
+        footer {
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 0.9rem;
+            background-color: rgba(0, 0, 0, 0.6);
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            background-color: rgba(255, 255, 255, 0.85);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            max-width: 300px;
+        }
+
+        .loading-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            color: #f39c12;
+            font-size: 1.5rem;
+            background-color: #A0B9B7;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .spinner {
+            border: 6px solid rgba(255, 255, 255, 0.3);
+            border-top: 6px solid #f39c12;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 200px; /* 버튼의 너비를 고정 */
+    height: 50px; /* 버튼의 높이를 고정 */
+    color: white;
+    text-align: center; /* 텍스트를 중앙 정렬 */
+}
+
+    .button-led_control { background-color: #28a745; }
+    .button-guide { background-color: #ffc107; }
+    .button-etc { background-color: #dc3545; }
+
+    .button-led_control:hover { background-color: #218838; }
+    .button-guide:hover { background-color: #e0a800; }
+    .button-etc:hover { background-color: #c82333; }
+        
+        /* "더보기" 버튼 위치 설정 */
+        .etc-container {
+            position: relative;
+        }
+
+        /* 추가 버튼 숨김 */
+        .etc-container:hover .more-buttons {
+            display: flex;
+        }
+
+        .more-buttons {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            position: absolute;
+            top: -230%;
+            left: 180px;
+            background-color: rgba(255, 255, 255, 0.85);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .more-buttons button {
+            padding: 10px 10px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 250px;
+            color: white;
+        }
+
+        .button-intro { background-color: #28a745; }
+        .button-purchase { background-color: #ffc107; }
+        .button-discord { background-color: #5865F2; }
+        .button-creator { background-color: #dc3545; }
+
+        .button-intro:hover { background-color: #218838; }
+        .button-purchase:hover { background-color: #e0a800; }
+        .button-discord:hover { background-color: #4752C4; }
+        .button-creator:hover { background-color: #c82333; }
+    </style>
+</head>
+<body id="body">
+    <header>
+        <h1 class="header-title" id="headerTitle">ESP32<br>교차로 제어 시스템</h1>
+    </header>
+
+    <main>
+        <section class="button-container" id="buttonContainer">
+            <button class="button-led_control" onclick="displayMessageAndMove('LED 제어 모드 실행 중입니다. 잠시만 기다려주세요...', 'LEDcontrol.html', 45)">LED 제어 모드</button>
+            <button class="button-guide" onclick="displayMessageAndMove('사용설명서로 이동 중입니다...', 'guide.html', 225)">사용 설명서</button>
+            <div class="etc-container">
+                <button class="button-etc" onclick="displayMessageAndMove('추가 정보란으로 이동 중입니다...', 'newpage.html', 315)">더보기</button>
+                <div class="more-buttons">
+                    <button class="button-intro" onclick="window.open('https://www.espressif.com/en/products/socs/esp32', '_blank')">ESP 모듈 소개</button>
+                    <button class="button-purchase" onclick="window.open('https://ko.aliexpress.com/w/wholesale-esp32.html?spm=a2g0o.detail.search.0', '_blank')">구매 사이트</button>
+                    <button class="button-discord" onclick="window.open('https://discord.gg/4ZM5UXphJk', '_blank')">디스코드 문의</button>
+                    <button class="button-creator" onclick="window.open('Production_team.html', '_blank')">제작자 정보</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="loading-container" id="loadingContainer">
+            <p id="loadingText">잠시만 기다려주세요...</p>
+            <div class="spinner"></div>
+        </section>
+    </main>
+
+    <footer id="footer">
+        <p>© 2024 Cross Road. 제작자: 김채운, 남궁동근, 김병현, 김태우, 라원준</p>
+    </footer>
+
+    <script>
+        function displayMessageAndMove(message, url, direction) {
+            document.getElementById('buttonContainer').style.display = 'none';
+            document.getElementById('headerTitle').style.opacity = '0';
+            document.getElementById('footer').style.opacity = '0';
+
+            document.body.style.transition = 'background-position 1s ease';
+            switch (direction) {
+                case 135:
+                    document.body.style.backgroundPosition = '100vw 100vh';
+                    break;
+                case 225:
+                    document.body.style.backgroundPosition = '-100vw 100vh';
+                    break;
+                case 45:
+                    document.body.style.backgroundPosition = '100vw -100vh';
+                    break;
+                case 315:
+                    document.body.style.backgroundPosition = '-100vw -100vh';
+                    break;
+            }
+
+            setTimeout(() => {
+                document.getElementById('loadingContainer').style.display = 'flex';
+                document.getElementById('loadingText').innerText = message;
+
+                setTimeout(() => {
+                    window.open(url, '_blank', 'width=800,height=600'); 
+                    document.body.style.backgroundPosition = 'center center';
+                    document.getElementById('loadingContainer').style.display = 'none';
+                    document.getElementById('buttonContainer').style.display = 'flex';
+                    document.getElementById('headerTitle').style.opacity = '1';
+                    document.getElementById('footer').style.opacity = '1';
+                }, 1000);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
